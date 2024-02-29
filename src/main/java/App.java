@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
-        Map<String, String> envVariables = System.getenv();
-        System.out.println(envVariables.get("LANG"));
+
     }
 }
