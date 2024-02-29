@@ -1,6 +1,7 @@
 package service;
 
 import dao.TicketDao;
+import entity.PlanetEntity;
 import entity.TicketEntity;
 import interfaces.dao.Create;
 import interfaces.dao.Delete;
@@ -15,7 +16,11 @@ public class TicketCrudService implements Create<TicketEntity>, Read<TicketEntit
     private final TicketDao dao = new TicketDao();
     @Override
     public void save(TicketEntity ticketEntity) {
-        dao.save(ticketEntity);
+        if (validateTicket(ticketEntity)) {
+            dao.save(ticketEntity);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
@@ -40,6 +45,24 @@ public class TicketCrudService implements Create<TicketEntity>, Read<TicketEntit
 
     @Override
     public void update(TicketEntity ticketEntity) {
-        dao.update(ticketEntity);
+        if (validateTicket(ticketEntity)) {
+            dao.update(ticketEntity);
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private boolean checkClient(TicketEntity ticket) {
+        return ticket.getClient() != null & ticket.getClient().getId() != null;
+    }
+
+    private boolean checkPlanet(TicketEntity ticket) {
+        PlanetEntity toPlanet = ticket.getToPlanet();
+        PlanetEntity fromPlanet = ticket.getFromPlanet();
+        return toPlanet != null && fromPlanet != null & toPlanet.getId() != null;
+    }
+
+    private boolean validateTicket(TicketEntity ticket) {
+        return checkClient(ticket) & checkPlanet(ticket);
     }
 }
