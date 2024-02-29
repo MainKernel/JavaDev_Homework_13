@@ -1,0 +1,7 @@
+{
+  "db.url": "jdbc:postgresql://localhost:32771/postgres",
+  "db.user": "postgres",
+  "db.password": "password",
+  "flyway.migration.location": "db.migration"
+}
+

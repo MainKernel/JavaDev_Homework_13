@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+}
+
+group = 'no.groupId'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.9.1'
+    jupiterVersion = 'junit-jupiter'
+    postgresqlVersion = '42.7.2'
+    flywayVersion = '10.8.1'
+    hibernateVersion = '6.4.4.Final'
+    gsonVersion = '2.10.1'
+    lombokVersion = '1.18.30'
+    h2Version = '2.2.220'
+    jetbrainsAnotationsVersion = '24.1.0'
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+
+    testImplementation platform("org.junit:junit-bom:${junitVersion}")
+    testImplementation "org.junit.jupiter:${jupiterVersion}"
+
+
+
+    implementation("org.hibernate.orm:hibernate-core:${hibernateVersion}")
+    implementation("org.postgresql:postgresql:${postgresqlVersion}")
+    implementation("com.google.code.gson:gson:${gsonVersion}")
+    implementation("org.jetbrains:annotations:${jetbrainsAnotationsVersion}")
+
+
+    //For H2 in memory testing
+    runtimeOnly("org.flywaydb:flyway-core:${flywayVersion}")
+    implementation("org.flywaydb:flyway-core:${flywayVersion}")
+    testImplementation("com.h2database:h2:${h2Version}")
+
+    //Need to work with postgres
+    implementation("org.flywaydb:flyway-database-postgresql:${flywayVersion}")
+
+}
+
+test {
+    useJUnitPlatform()
+}
